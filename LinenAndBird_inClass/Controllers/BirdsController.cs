@@ -20,7 +20,7 @@ namespace LinenAndBird_inClass.Controllers
         [HttpGet]
         public IEnumerable<Bird> GetAllBirds()
         {
-            //return Ok(_repo.GetAll());
+            //return Ok(_repo.GetAll()); //why doesn't this work?
             return _repo.GetAll();
         }
 

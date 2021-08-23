@@ -7,6 +7,7 @@ namespace LinenAndBird_inClass.Models
 {
     public class Bird
     {
+        public Guid Id { get; set; } //unique Id generated for each bird
         public BirdType Type { get; set; }
         public string Color { get; set; }
         public string Size { get; set; }
