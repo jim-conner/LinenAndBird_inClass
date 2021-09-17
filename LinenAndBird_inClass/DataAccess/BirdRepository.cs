@@ -29,6 +29,7 @@ namespace LinenAndBird_inClass.DataAccess
         {
             //if you add 'using' before 'var'
             //using = when I'm done with what's in {} close this shit/lexical scope
+            // or in other words, +using says the var is IDisposable so delete anything in {} after running it
             using var connection = new SqlConnection(
                 // Your App and also SQLServer can only have so many connections 
                 //connnections as tunnel btw app & DB
@@ -89,6 +90,7 @@ namespace LinenAndBird_inClass.DataAccess
             {
                 return MapFromReader(reader);
             }
+            return null;
 
         }
 
@@ -126,8 +128,9 @@ namespace LinenAndBird_inClass.DataAccess
             var newId = (Guid)cmd.ExecuteScalar();
 
             newBird.Id = newId;
+
             //newBird.Id = Guid.NewGuid();
-            //_birds.Add(newBird);
+            //_birds.Add(newBird); -- uses CreateCommand(), TSQL statement, parameters instead
         }
 
         internal Bird GetById(Guid birdId)
@@ -137,18 +140,32 @@ namespace LinenAndBird_inClass.DataAccess
             connection.Open();
 
             var command = connection.CreateCommand();
-            command.CommandText = @"Select * 
-                                   From Birds
-                                   Where id = @id";
+            //command.CommandText = $@"Select * 
+            //                       From Birds
+            //                       Where id = {birdId}";
+            // don't use string interpolation this way... bc sql injection possible
 
-            //using Paramterization prevents sql injections
+            command.CommandText = $@"Select * 
+                                    From Birds
+                                    Where id = @id";
+
+            //Parameterization prevents sql injections "id" needs to match
             command.Parameters.AddWithValue("id", birdId);
 
+            //use ExecuteReader() when we want to return all results of our query
             var reader = command.ExecuteReader();
 
-            var birds = new List<Bird>();
+            //var birds = new List<Bird>(); -- what did this do here?
 
-            // GO BACK AND REVIEW Nathan's CODE after it's pushed up 
+            //don't need While() loop, use if() statement
+            if (reader.Read())
+            {
+                return MapFromReader(reader);
+            }
+
+            return null;
+
+            //return _birds.FirstOrDefault(bird => bird.Id-- birdId);
         }
 
         Bird MapFromReader (SqlDataReader reader)
@@ -159,6 +176,8 @@ namespace LinenAndBird_inClass.DataAccess
             bird.Type = (BirdType)reader["Type"];
             bird.Color = reader["Color"].ToString();
             bird.Name = reader["Name"].ToString();
+
+            return bird;
         }
     }
 }
