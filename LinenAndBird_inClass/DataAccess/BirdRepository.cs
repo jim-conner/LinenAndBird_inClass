@@ -72,9 +72,9 @@ namespace LinenAndBird_inClass.DataAccess
             var cmd = connection.CreateCommand();
             cmd.CommandText = @"update Birds
                                 Set Color = @color,
-                                Set Name = @name,
-                                Set Type = @type,
-                                Set Size = @size
+                                    Name = @name,
+                                    Type = @type,
+                                    Size = @size
                             output inserted.*
                             Where id = @id";
 
