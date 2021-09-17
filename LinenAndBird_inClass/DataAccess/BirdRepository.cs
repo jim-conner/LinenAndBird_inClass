@@ -74,7 +74,7 @@ namespace LinenAndBird_inClass.DataAccess
                                 Set Color = @color,
                                 Set Name = @name,
                                 Set Type = @type,
-                                Set Size = @size,
+                                Set Size = @size
                             output inserted.*
                             Where id = @id";
 
@@ -95,7 +95,6 @@ namespace LinenAndBird_inClass.DataAccess
             }
 
             return null;
-
         }
 
         internal void Remove(Guid id)
@@ -118,7 +117,7 @@ namespace LinenAndBird_inClass.DataAccess
 
             var cmd = connection.CreateCommand();
             cmd.CommandText = @"insert into birds(Type,Color,Size,Name)
-                                out inserted.Id
+                                output inserted.Id
                                 values (@Type,@Color,@Size,@Name)";
 
             cmd.Parameters.AddWithValue("Type", newBird.Type);
