@@ -78,6 +78,7 @@ namespace LinenAndBird_inClass.DataAccess
                             output inserted.*
                             Where id = @id";
 
+            //bird comes from http request in controller
             cmd.Parameters.AddWithValue("Type", bird.Type);
             cmd.Parameters.AddWithValue("Color", bird.Color);
             cmd.Parameters.AddWithValue("Size", bird.Size);
@@ -88,8 +89,11 @@ namespace LinenAndBird_inClass.DataAccess
 
             if (reader.Read())
             {
-                return MapFromReader(reader);
+                //return MapFromReader(reader);
+                var updatedBird = MapFromReader(reader);
+                return updatedBird;
             }
+
             return null;
 
         }
@@ -111,10 +115,11 @@ namespace LinenAndBird_inClass.DataAccess
         {
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
+
             var cmd = connection.CreateCommand();
             cmd.CommandText = @"insert into birds(Type,Color,Size,Name)
                                 out inserted.Id
-                                values (@Type,@Color, @Size, @Name)";
+                                values (@Type,@Color,@Size,@Name)";
 
             cmd.Parameters.AddWithValue("Type", newBird.Type);
             cmd.Parameters.AddWithValue("Color", newBird.Color);
