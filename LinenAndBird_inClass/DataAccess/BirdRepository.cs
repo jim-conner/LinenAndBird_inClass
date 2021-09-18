@@ -46,17 +46,19 @@ namespace LinenAndBird_inClass.DataAccess
             var birds = new List<Bird>();
 
             //data readers are weird... only get one row from results at a time
-            while (reader.Read()) 
+            while (reader.Read())
             {
-                //Mapping data from the relational model to the object model
-                var bird = new Bird();
-                bird.Id = reader.GetGuid(0);
-                bird.Size = reader["Size"].ToString();
-                bird.Type = (BirdType)reader["Type"];
-                bird.Color = reader["Color"].ToString();
-                bird.Name = reader["Name"].ToString();
+                ////Mapping data from the relational model to the object model
+                //var bird = new Bird();
+                //bird.Id = reader.GetGuid(0);
+                //bird.Size = reader["Size"].ToString();
+                //bird.Type = (BirdType)reader["Type"];
+                //bird.Color = reader["Color"].ToString();
+                //bird.Name = reader["Name"].ToString();
 
-                //each bird goes in the list to return later
+                //created method at bottom of file instead of 
+                var bird = MapFromReader(reader);
+
                 birds.Add(bird);
             }
 
