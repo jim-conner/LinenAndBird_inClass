@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using LinenAndBird_inClass.Models;
 using Microsoft.Data.SqlClient;
 
@@ -141,19 +142,28 @@ namespace LinenAndBird_inClass.DataAccess
 
         internal Bird GetById(Guid birdId)
         {
-            using var connection = new SqlConnection(_connectionString);
+            //using var connection = new SqlConnection(_connectionString);
+            using var db = new SqlConnection(_connectionString);
 
-            connection.Open();
+            //connection.Open();
 
-            var command = connection.CreateCommand();
+            var sql = $@"Select * 
+                        From Birds
+                        Where id = @id";
+
+            //var bird2 = db.QueryFirst<Bird>(sql, new { id = birdId });
+
+            var bird = db.QueryFirstorDefault<Bird>(sql, new { id = birdId });
+            return bird;
+
+            //var command = connection.CreateCommand();
             //command.CommandText = $@"Select * 
             //                       From Birds
             //                       Where id = {birdId}";
             // don't use string interpolation this way... bc sql injection possible
-
-            command.CommandText = $@"Select * 
-                                    From Birds
-                                    Where id = @id";
+            //command.CommandText = $@"Select * 
+            //                From Birds
+            //                Where id = @id";
 
             //Parameterization prevents sql injections "id" needs to match
             command.Parameters.AddWithValue("id", birdId);
