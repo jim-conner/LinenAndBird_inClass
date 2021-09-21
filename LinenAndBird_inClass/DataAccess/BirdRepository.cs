@@ -153,8 +153,8 @@ namespace LinenAndBird_inClass.DataAccess
 
             //var bird2 = db.QueryFirst<Bird>(sql, new { id = birdId });
 
-            var bird = db.QueryFirstorDefault<Bird>(sql, new { id = birdId });
-            return bird;
+            //var bird = db.QueryFirstorDefault<Bird>(sql, new { id = birdId });
+            //return bird;
 
             //var command = connection.CreateCommand();
             //command.CommandText = $@"Select * 
@@ -166,18 +166,18 @@ namespace LinenAndBird_inClass.DataAccess
             //                Where id = @id";
 
             //Parameterization prevents sql injections "id" needs to match
-            command.Parameters.AddWithValue("id", birdId);
+            //command.Parameters.AddWithValue("id", birdId);
 
             //use ExecuteReader() when we want to return all results of our query
-            var reader = command.ExecuteReader();
+            //var reader = command.ExecuteReader();
 
             //var birds = new List<Bird>(); -- what did this do here?
 
             //don't need While() loop, use if() statement
-            if (reader.Read())
-            {
-                return MapFromReader(reader);
-            }
+            //if (reader.Read())
+            //{
+            //    return MapFromReader(reader);
+            //}
 
             return null;
 
