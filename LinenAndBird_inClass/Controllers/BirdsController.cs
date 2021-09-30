@@ -3,26 +3,35 @@ using System.Collections.Generic;
 using LinenAndBird_inClass.DataAccess;
 using LinenAndBird_inClass.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace LinenAndBird_inClass.Controllers
 {
-    //[Route("api/[controller]")]
+    //[Route("api/[controller]")] //this is default synxtax for route
     [Route("api/birds")] // nathan prefers this syntax for specificity
     [ApiController]
     public class BirdsController : ControllerBase
     {
         private BirdRepository _repo; //nathan leaves off "private"
 
-        public BirdsController()
+        //this is asking ASP.NET for the application configuration
+        //this is known as Dependency Injection
+        //public BirdsController(IConfiguration config)
+        //{
+        //    var connectionString = config.GetConnectionString("LinenAndBird");
+        //    _repo = new BirdRepository(connectionString); //dependency of BirdController
+        //}
+
+        public BirdsController(BirdRepository repo)
         {
-            _repo = new BirdRepository();
+            _repo = repo;
         }
 
         [HttpGet]
-        public IEnumerable<Bird> GetAllBirds()
+        public IActionResult GetAllBirds()
         {
-            //return Ok(_repo.GetAll()); //why doesn't this work?
-            return _repo.GetAll();
+            return Ok(_repo.GetAll()); //why doesn't this work?
+            //return _repo.GetAll();
         }
         
         [HttpGet("{id}")]

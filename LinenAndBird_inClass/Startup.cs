@@ -26,6 +26,11 @@ namespace LinenAndBird_inClass
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //registering a service
+            //services.AddTransient<IConfiguration>() -> create a new thing anytime someone asks for one
+            //services.AddScoped<IConfiguration>() create new thing once per http req
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddTransient<IConfiguration>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

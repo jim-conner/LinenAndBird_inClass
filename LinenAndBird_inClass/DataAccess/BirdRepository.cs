@@ -5,12 +5,24 @@ using System.Threading.Tasks;
 using Dapper;
 using LinenAndBird_inClass.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace LinenAndBird_inClass.DataAccess
 {
     public class BirdRepository
     {
         const string _connectionString = "Server = localhost; Database = LinenAndBird; Trusted_Connection = True;";
+        //readonly string _connectionString;
+
+        //public BirdRepository(string connectionString)
+        //{
+        //    _connectionString = connectionString;
+        //}
+
+        //public BirdRepository(IConfiguration config)
+        //{
+        //    _connectionString = config.GetConnectionString("LinenAndBird");
+        //}
 
         static List<Bird> _birds = new List<Bird>
         {
@@ -32,7 +44,7 @@ namespace LinenAndBird_inClass.DataAccess
             //using = when I'm done with what's in {} close this shit/lexical scope
             // or in other words, +using says the var is IDisposable so delete anything in {} after running it
             using var connection = new SqlConnection(
-                // Your App and also SQLServer can only have so many connections 
+                // Your App and also SQLServer can only have so many connections, so use "using" in front of var to close each connection after it's run 
                 //connnections as tunnel btw app & DB
                 "Server = localhost; Database = LinenAndBird; Trusted_Connection = True;"
                 );
@@ -58,9 +70,9 @@ namespace LinenAndBird_inClass.DataAccess
                 //bird.Name = reader["Name"].ToString();
 
                 //created method at bottom of file instead of 
-                var bird = MapFromReader(reader);
+                //var bird = MapFromReader(reader);
 
-                birds.Add(bird);
+                //birds.Add(bird);
             }
 
             return birds;
@@ -92,9 +104,9 @@ namespace LinenAndBird_inClass.DataAccess
 
             if (reader.Read())
             {
-                //return MapFromReader(reader);
-                var updatedBird = MapFromReader(reader);
-                return updatedBird;
+                return MapFromReader(reader);
+                //var updatedBird = MapFromReader(reader);
+                //return updatedBird;
             }
 
             return null;
@@ -151,40 +163,39 @@ namespace LinenAndBird_inClass.DataAccess
                         From Birds
                         Where id = @id";
 
-            //var bird2 = db.QueryFirst<Bird>(sql, new { id = birdId });
+             //var bird = db.QueryFirst<Bird>(sql, new { id = birdId });
+             var bird = db.QueryFirstOrDefault<Bird>(sql, new { id = birdId });
+             return bird;
 
-            //var bird = db.QueryFirstorDefault<Bird>(sql, new { id = birdId });
-            //return bird;
-
-            //var command = connection.CreateCommand();
-            //command.CommandText = $@"Select * 
-            //                       From Birds
-            //                       Where id = {birdId}";
+            // var command = connection.CreateCommand();
+            // command.CommandText = $@"Select * 
+            //                        From Birds
+            //                        Where id = {birdId}";
             // don't use string interpolation this way... bc sql injection possible
-            //command.CommandText = $@"Select * 
-            //                From Birds
-            //                Where id = @id";
+            // command.CommandText = $@"Select * 
+            //                 From Birds
+            //                 Where id = @id";
 
-            //Parameterization prevents sql injections "id" needs to match
-            //command.Parameters.AddWithValue("id", birdId);
+            // Parameterization prevents sql injections "id" needs to match
+            // command.Parameters.AddWithValue("id", birdId);
 
-            //use ExecuteReader() when we want to return all results of our query
-            //var reader = command.ExecuteReader();
+            // use ExecuteReader() when we want to return all results of our query
+            // var reader = command.ExecuteReader();
 
-            //var birds = new List<Bird>(); -- what did this do here?
+            // var birds = new List<Bird>(); --what did this do here?
 
             //don't need While() loop, use if() statement
-            //if (reader.Read())
-            //{
-            //    return MapFromReader(reader);
-            //}
+            // if (reader.Read())
+            // {
+            //     return MapFromReader(reader);
+            // }
 
-            return null;
+            // return null;
 
             //return _birds.FirstOrDefault(bird => bird.Id-- birdId);
         }
 
-        Bird MapFromReader (SqlDataReader reader)
+        Bird MapFromReader(SqlDataReader reader)
         {
             var bird = new Bird();
             bird.Id = reader.GetGuid(0);
