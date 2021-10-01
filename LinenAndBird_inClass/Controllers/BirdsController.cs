@@ -16,18 +16,17 @@ namespace LinenAndBird_inClass.Controllers
 
         //this is asking ASP.NET for the application configuration
         //this is known as Dependency Injection
-        public BirdsController(BirdRepository repo) // don't need IConfiguration config now
+
+    /*
+        public BirdsController(IConfiguration config) // don't need IConfiguration config
         {
-            //
-            _repo = repo;
-            /*
             var connectionString = config.GetConnectionString("LinenAndBird");
             _repo = new BirdRepository(connectionString); //dependency of BirdController
-            */
         }
+    */
 
-        //this is asking ASP.NET for the application configuration
-        public BirdsController(BirdRepository repo)
+            //this is asking ASP.NET for the application configuration
+            public BirdsController(BirdRepository repo)
         {
             _repo = repo;
         }
