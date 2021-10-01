@@ -11,7 +11,12 @@ namespace LinenAndBird_inClass.DataAccess
 {
     public class BirdRepository
     {
-        const string _connectionString = "Server = localhost; Database = LinenAndBird; Trusted_Connection = True;";
+        readonly string _connectionString;
+        public BirdRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        //const string _connectionString = "Server = localhost; Database = LinenAndBird; Trusted_Connection = True;";
         //readonly string _connectionString;
 
         //public BirdRepository(string connectionString)

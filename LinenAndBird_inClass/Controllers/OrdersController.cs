@@ -19,7 +19,7 @@ namespace LinenAndBird_inClass.Controllers
 
         public OrdersController()
         {
-            _birdRepository = new BirdRepository();
+            _birdRepository = new BirdRepository(); //need to pass the ConnectionString now
             _hatRepository = new HatRepository();
             _orderRepository = new OrdersRepository();
         }

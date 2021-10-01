@@ -30,6 +30,7 @@ namespace LinenAndBird_inClass
             //services.AddTransient<IConfiguration>() -> create a new thing anytime someone asks for one
             //services.AddScoped<IConfiguration>() create new thing once per http req
             services.AddSingleton<IConfiguration>(Configuration);
+            //...AddSingleton<> is giving back same copy of what you ask for ... forever until app stops running
             services.AddTransient<IConfiguration>();
 
             services.AddControllers();
