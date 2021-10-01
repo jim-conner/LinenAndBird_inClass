@@ -17,9 +17,9 @@ namespace LinenAndBird_inClass.Controllers
         private HatRepository _hatRepository;
         private OrdersRepository _orderRepository;
 
-        public OrdersController()
+        public OrdersController(BirdRepository birdRepo)
         {
-            _birdRepository = new BirdRepository(); //need to pass the ConnectionString now
+            _birdRepository = birdRepo; //need to pass the ConnectionString now
             _hatRepository = new HatRepository();
             _orderRepository = new OrdersRepository();
         }

@@ -12,9 +12,10 @@ namespace LinenAndBird_inClass.DataAccess
     public class BirdRepository
     {
         readonly string _connectionString;
-        public BirdRepository(string connectionString)
+        public BirdRepository(IConfiguration config) //string won't work
         {
-            _connectionString = connectionString;
+            //_connectionString = connectionString;
+            _connectionString = config.GetConnectionString("LinenAndBird");
         }
         //const string _connectionString = "Server = localhost; Database = LinenAndBird; Trusted_Connection = True;";
         //readonly string _connectionString;
