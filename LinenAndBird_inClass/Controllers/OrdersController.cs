@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinenAndBird_inClass.Controllers
 {
-    [Route("api/[controller]")] //"api/orders"
+    [Route("api/orders")]//[Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
@@ -17,12 +17,30 @@ namespace LinenAndBird_inClass.Controllers
         private HatRepository _hatRepository;
         private OrdersRepository _orderRepository;
 
-        public OrdersController()
+        public OrdersController(BirdRepository birdRepo)
         {
-            _birdRepository = new BirdRepository();
+            _birdRepository = birdRepo; //need to pass the ConnectionString now
             _hatRepository = new HatRepository();
             _orderRepository = new OrdersRepository();
         }
+
+        [HttpGet]
+        public IActionResult GetAllOrder()
+        {
+            return Ok(_orderRepository.GetAll());
+        }
+
+        [HttpGet("(id)")]
+        public IActionResult GetOrderById(Guid id)
+        {
+            Order order = _orderRepository.Get(id);
+
+            if (order == null)
+                return NotFound("No order exists with that id.");
+
+            return Ok(order);
+        }
+
 
         [HttpPost]
         public IActionResult CreateOrder(CreateOrderCommand command)

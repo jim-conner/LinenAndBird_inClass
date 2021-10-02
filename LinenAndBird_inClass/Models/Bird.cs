@@ -13,7 +13,14 @@ namespace LinenAndBird_inClass.Models
         public string Size { get; set; }
         public string Name { get; set; }
 
-        public List<string> Accessories { get; set; }
+        public IEnumerable<BirdAccessory> Accessories { get; set; } //<string> returns error, change to BirdAccessory type... ALSO LIST NEEDS TO -> IEnumerable
+    }
+
+    public class BirdAccessory
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public Guid BirdId { get; set; }
     }
 
     public enum BirdType

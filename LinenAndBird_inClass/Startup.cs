@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LinenAndBird_inClass.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,14 @@ namespace LinenAndBird_inClass
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //registering a service - test ASP.NET  how to build a thing
+            //services.AddTransient<IConfiguration>() -> create a new thing anytime someone asks for one
+            //services.AddScoped<IConfiguration>() create new thing once per http req
+            services.AddSingleton<IConfiguration>(Configuration);
+            //...AddSingleton<> is giving back same copy of what you ask for ... forever until app stops running
+            services.AddTransient<BirdRepository>();
+            services.AddTransient<HatRepository>();
+            services.AddTransient<OrdersRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

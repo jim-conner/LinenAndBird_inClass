@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using LinenAndBird_inClass.Models;
+using Microsoft.Data.SqlClient;
 
 namespace LinenAndBird_inClass.DataAccess
 {
@@ -33,9 +35,21 @@ namespace LinenAndBird_inClass.DataAccess
                 }
         };
 
+        const string _connectionString = "Server =localhost;Database=LinenAndBird;Trusted_Connection=True;";
+
+
         internal Hat GetById(Guid hatId)
         {
-            return _hats.FirstOrDefault(hat => hat.Id == hatId); 
+            using var db = new SqlConnection(_connectionString);
+
+            var hat = db.QueryFirstOrDefault<Hat>("Select * From Hats Where Id = @id", new { id = hatId});
+            //for parameters this is what dapper is doing internally:
+            //for reach prop on the parameter object 
+            //add a parameter w value to sql cmd
+            //end for each
+            // execute the cmd
+            return hat;
+            //return _hats.FirstOrDefault(hat => hat.Id == hatId); 
         }
 
         internal List<Hat> GetAll()
