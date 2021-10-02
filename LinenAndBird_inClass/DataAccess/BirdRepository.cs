@@ -12,10 +12,12 @@ namespace LinenAndBird_inClass.DataAccess
     public class BirdRepository
     {
         readonly string _connectionString;
+
         public BirdRepository(IConfiguration config) //string in line 17 won't work now
         {
             _connectionString = config.GetConnectionString("LinenAndBird");
         }
+
         //const string _connectionString = "Server = localhost; Database = LinenAndBird; Trusted_Connection = True;";
         //readonly string _connectionString;
 
@@ -49,6 +51,7 @@ namespace LinenAndBird_inClass.DataAccess
 
             foreach (var bird in birds)
             {
+                //same join you'd do in SQL but we're doing it with Linq in C#
                 bird.Accessories = accessories.Where(accessory => accessory.BirdId == bird.Id);
             }
 
@@ -96,6 +99,14 @@ namespace LinenAndBird_inClass.DataAccess
             */
         }
 
+        // refactoring Update with dapper
+        internal Bird Update(Guid id, Bird bird)
+        {
+            using var db = new SqlConnection(_connectionString);
+
+
+        }
+        /*
         internal Bird Update(Guid id, Bird bird)
         {
             using var connection = new SqlConnection(_connectionString);
@@ -128,6 +139,7 @@ namespace LinenAndBird_inClass.DataAccess
 
             return null;
         }
+        */
 
         internal void Remove(Guid id)
         {
@@ -212,16 +224,16 @@ namespace LinenAndBird_inClass.DataAccess
             //return _birds.FirstOrDefault(bird => bird.Id-- birdId);
         }
 
-        Bird MapFromReader(SqlDataReader reader)
-        {
-            var bird = new Bird();
-            bird.Id = reader.GetGuid(0);
-            bird.Size = reader["Size"].ToString();
-            bird.Type = (BirdType)reader["Type"];
-            bird.Color = reader["Color"].ToString();
-            bird.Name = reader["Name"].ToString();
+        //Bird MapFromReader(SqlDataReader reader)
+        //{
+        //    var bird = new Bird();
+        //    bird.Id = reader.GetGuid(0);
+        //    bird.Size = reader["Size"].ToString();
+        //    bird.Type = (BirdType)reader["Type"];
+        //    bird.Color = reader["Color"].ToString();
+        //    bird.Name = reader["Name"].ToString();
 
-            return bird;
-        }
+        //    return bird;
+        //}
     }
 }
