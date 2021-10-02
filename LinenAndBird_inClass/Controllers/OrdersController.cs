@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinenAndBird_inClass.Controllers
 {
-    [Route("api/[controller]")] //"api/orders"
+    [Route("api/orders")]//[Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
@@ -22,12 +22,6 @@ namespace LinenAndBird_inClass.Controllers
             _birdRepository = birdRepo; //need to pass the ConnectionString now
             _hatRepository = new HatRepository();
             _orderRepository = new OrdersRepository();
-        }
-
-        [HttpGet]
-        public IActionResult GetAllOrders()
-        {
-            return Ok(_orderRepository.GetAll());
         }
 
         [HttpGet]

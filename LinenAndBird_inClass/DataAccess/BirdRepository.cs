@@ -12,7 +12,7 @@ namespace LinenAndBird_inClass.DataAccess
     public class BirdRepository
     {
         readonly string _connectionString;
-        public BirdRepository(IConfiguration config) //string won't work
+        public BirdRepository(IConfiguration config) //string in line 17 won't work now
         {
             //_connectionString = connectionString;
             _connectionString = config.GetConnectionString("LinenAndBird");
@@ -46,6 +46,8 @@ namespace LinenAndBird_inClass.DataAccess
 
         internal IEnumerable<Bird> GetAll()
         {
+ // ************ Commented out notes/code pre-using IConfiguration ***************
+            /*
             //if you add 'using' before 'var'
             //using = when I'm done with what's in {} close this shit/lexical scope
             // or in other words, +using says the var is IDisposable so delete anything in {} after running it
@@ -67,22 +69,22 @@ namespace LinenAndBird_inClass.DataAccess
             //data readers are weird... only get one row from results at a time
             while (reader.Read())
             {
-                ////Mapping data from the relational model to the object model
-                //var bird = new Bird();
-                //bird.Id = reader.GetGuid(0);
-                //bird.Size = reader["Size"].ToString();
-                //bird.Type = (BirdType)reader["Type"];
-                //bird.Color = reader["Color"].ToString();
-                //bird.Name = reader["Name"].ToString();
+                //Mapping data from the relational model to the object model
+                var bird = new Bird();
+                bird.Id = reader.GetGuid(0);
+                bird.Size = reader["Size"].ToString();
+                bird.Type = (BirdType)reader["Type"];
+                bird.Color = reader["Color"].ToString();
+                bird.Name = reader["Name"].ToString();
 
-                //created method at bottom of file instead of 
-                //var bird = MapFromReader(reader);
+                created method at bottom of file instead of
+                var bird = MapFromReader(reader);
 
-                //birds.Add(bird);
+                birds.Add(bird);
             }
 
             return birds;
-            //return _birds;
+            */
         }
 
         internal Bird Update(Guid id, Bird bird)
