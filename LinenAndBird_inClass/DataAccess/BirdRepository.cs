@@ -24,23 +24,36 @@ namespace LinenAndBird_inClass.DataAccess
         //    _connectionString = connectionString;
         //}
 
-        static List<Bird> _birds = new List<Bird>
-        {
+        //static List<Bird> _birds = new List<Bird>
+        //{
 
-        new Bird
-            {
-                Id = Guid.NewGuid(),
-                Name = "Jimmy",
-                Color = "Red",
-                Size = "Small",
-                Type = BirdType.Dead,
-                Accessories = new List<string>{"Beanie", "Gold wing tips"}
-            }
-        };
+        //new Bird
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        Name = "Jimmy",
+        //        Color = "Red",
+        //        Size = "Small",
+        //        Type = BirdType.Dead,
+        //        Accessories = new List<BirdAccessory>()
+        //    }
+        //};
 
         internal IEnumerable<Bird> GetAll()
         {
             using var db = new SqlConnection(_connectionString);
+
+            var birds = db.Query<Bird>(@"Select * From Birds");
+
+            var accessorySql = @"Select * From Birds";
+            var accessories = db.Query<BirdAccessory>(accessorySql);
+
+            foreach (var bird in birds)
+            {
+                bird.Accessories = accessories.Where(accessory => accessory.BirdId == bird.Id);
+            }
+
+            return birds;
+
 
             // ************ Commented out notes/code pre-using IConfiguration ***************
             /*
@@ -79,7 +92,7 @@ namespace LinenAndBird_inClass.DataAccess
                 birds.Add(bird);
             }
 
-            return birds;
+                return birds;
             */
         }
 

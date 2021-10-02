@@ -33,6 +33,8 @@ namespace LinenAndBird_inClass
             services.AddSingleton<IConfiguration>(Configuration);
             //...AddSingleton<> is giving back same copy of what you ask for ... forever until app stops running
             services.AddTransient<BirdRepository>();
+            services.AddTransient<HatRepository>();
+            services.AddTransient<OrdersRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
