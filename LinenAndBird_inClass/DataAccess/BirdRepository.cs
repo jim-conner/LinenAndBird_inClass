@@ -14,7 +14,6 @@ namespace LinenAndBird_inClass.DataAccess
         readonly string _connectionString;
         public BirdRepository(IConfiguration config) //string in line 17 won't work now
         {
-            //_connectionString = connectionString;
             _connectionString = config.GetConnectionString("LinenAndBird");
         }
         //const string _connectionString = "Server = localhost; Database = LinenAndBird; Trusted_Connection = True;";
@@ -23,11 +22,6 @@ namespace LinenAndBird_inClass.DataAccess
         //public BirdRepository(string connectionString)
         //{
         //    _connectionString = connectionString;
-        //}
-
-        //public BirdRepository(IConfiguration config)
-        //{
-        //    _connectionString = config.GetConnectionString("LinenAndBird");
         //}
 
         static List<Bird> _birds = new List<Bird>
@@ -46,7 +40,9 @@ namespace LinenAndBird_inClass.DataAccess
 
         internal IEnumerable<Bird> GetAll()
         {
- // ************ Commented out notes/code pre-using IConfiguration ***************
+            using var db = new SqlConnection(_connectionString);
+
+            // ************ Commented out notes/code pre-using IConfiguration ***************
             /*
             //if you add 'using' before 'var'
             //using = when I'm done with what's in {} close this shit/lexical scope
