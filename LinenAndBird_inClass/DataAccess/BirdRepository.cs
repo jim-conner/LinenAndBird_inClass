@@ -104,7 +104,7 @@ namespace LinenAndBird_inClass.DataAccess
         {
             using var db = new SqlConnection(_connectionString);
 
-
+            var cmd = 
         }
         /*
         internal Bird Update(Guid id, Bird bird)
