@@ -104,8 +104,17 @@ namespace LinenAndBird_inClass.DataAccess
         {
             using var db = new SqlConnection(_connectionString);
 
-            //var cmd =
-            return bird;
+            var sql = @"update Birds
+                                Set Color = @color,
+                                    Name = @name,
+                                    Type = @type,
+                                    Size = @size
+                            output inserted.*
+                            Where id = @id";
+
+            bird.Id = id;
+            var updatedBird = db.QuerySingleOrDefault<Bird>(sql, bird);
+            return updatedBird;
         }
         /*
         internal Bird Update(Guid id, Bird bird)
@@ -144,19 +153,18 @@ namespace LinenAndBird_inClass.DataAccess
 
         internal void Remove(Guid id)
         {
-            using var connection = new SqlConnection(_connectionString);
-            connection.Open();
-            var cmd = connection.CreateCommand();
-            cmd.CommandText = @"Delete 
-                                From Birds 
-                                Where Id = @Id";
+            //refactored with dapper
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"Delete 
+                        From Birds 
+                        Where Id = @Id";
 
-            cmd.Parameters.AddWithValue("id", id);
-            cmd.ExecuteNonQuery();
+            db.Execute(sql, new { id });
         }
 
         internal void Add(Bird newBird)
         {
+            //refactored with dapper
             using var db = new SqlConnection(_connectionString);
 
             var sql = @"Insert into Birds([Type],[Color],[Size], [Name])
