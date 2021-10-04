@@ -104,7 +104,8 @@ namespace LinenAndBird_inClass.DataAccess
         {
             using var db = new SqlConnection(_connectionString);
 
-            var cmd = 
+            //var cmd =
+            return bird;
         }
         /*
         internal Bird Update(Guid id, Bird bird)
@@ -156,6 +157,17 @@ namespace LinenAndBird_inClass.DataAccess
 
         internal void Add(Bird newBird)
         {
+            using var db = new SqlConnection(_connectionString);
+
+            var sql = @"Insert into Birds([Type],[Color],[Size], [Name])
+                        Output Inserted.Id
+                        Values (@Type,@Color,@Size,@Name)";
+
+            var id = db.ExecuteScalar<Guid>(sql, newBird);
+            newBird.Id = id;
+
+            ///// previous version/////////
+            /*
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
 
@@ -179,6 +191,7 @@ namespace LinenAndBird_inClass.DataAccess
 
             //newBird.Id = Guid.NewGuid();
             //_birds.Add(newBird); -- uses CreateCommand(), TSQL statement, parameters instead
+            */
         }
 
         internal Bird GetById(Guid birdId)
