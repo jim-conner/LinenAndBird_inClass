@@ -103,7 +103,7 @@ namespace LinenAndBird_inClass.DataAccess
         internal Bird Update(Guid id, Bird bird)
         {
             using var db = new SqlConnection(_connectionString);
-
+            return bird;
 
         }
         /*
