@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LinenAndBird_inClass.DataAccess;
 using LinenAndBird_inClass.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -10,6 +11,10 @@ namespace LinenAndBird_inClass.Controllers
     //[Route("api/[controller]")] //this is default synxtax for route
     [Route("api/birds")] // nathan prefers this syntax for specificity
     [ApiController]
+    [Authorize] //works on an indv method basis, so you'd just tag that one controller method
+    // ^^everything inside of this controller you need to be logged in to use this api
+
+    //[AllowAnoyomous] allows the given method to be sent but not required
     public class BirdsController : ControllerBase
     {
         private BirdRepository _repo; //nathan leaves off "private"
@@ -32,6 +37,7 @@ namespace LinenAndBird_inClass.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous] //see note above here is an example for the GetAll call
         public IActionResult GetAllBirds()
         {
             return Ok(_repo.GetAll()); //why doesn't this work?

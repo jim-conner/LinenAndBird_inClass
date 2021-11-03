@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LinenAndBird_inClass
 {
@@ -35,6 +37,21 @@ namespace LinenAndBird_inClass
             services.AddTransient<BirdRepository>();
             services.AddTransient<HatRepository>();
             services.AddTransient<OrdersRepository>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.IncludeErrorDetails = true;
+                   options.Authority = "https://securetoken.google.com/fish-store-a71e6";
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateLifetime = true,
+                       ValidateAudience = true,
+                       ValidateIssuer = true,
+                       ValidAudience = "fish-store-a71e6",
+                       ValidIssuer = "https://securetoken.google.com/fish-store-a71e6"
+                   };
+               });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
