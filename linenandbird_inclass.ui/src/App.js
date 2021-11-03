@@ -9,15 +9,16 @@ function App() {
   //   {name:"john"},
   //   {name:"teddy"}
   // ];
-
+// store token auth for later ... add that part here too from PR
 const [birds, setBirds] = useState([]);
 
 useEffect(() => {
-  getAllBirds().then(data => setBirds(data))
+  getAllBirds().then(setBirds())
 }, []);
 
   return (
     <div className="App">
+      {/* {you'll want to add the buttons here for auth} */}
       <BirdList birds={birds}/>
     </div>
   );

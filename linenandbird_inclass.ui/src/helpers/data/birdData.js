@@ -3,10 +3,12 @@ import config from "../config";
 
 const baseUrl = config.baseUrl;
 
-export function getAllBirds(){
+const getAllBirds = {
   new Promise((resolve, reject) => {
     axios.get(`${baseUrl}/api/birds`)
       .then(response => resolve(response.data))
       .catch(error => reject(error))
   })
 }
+
+export default getAllBirds;
