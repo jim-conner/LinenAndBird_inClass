@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import BirdList from './components/BirdList';
-import { getAllBirds } from './helpers/data/birdData';
+import { signInUser } from './helpers/auth';
+import getAllBirds from './helpers/data/birdData';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 function App() {
   // let birds = [
@@ -11,14 +15,30 @@ function App() {
   // ];
 // store token auth for later ... add that part here too from PR
 const [birds, setBirds] = useState([]);
+const [user, setUser] = useState({});
 
+useEffect(() => getAllBirds().then(setBirds), []);
 useEffect(() => {
-  getAllBirds().then(setBirds())
-}, []);
-
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {             
+      
+      //store the token for later   
+      user.getIdToken().then((token) => sessionStorage.setItem("token", token));
+      
+      setUser(user);
+    } else {
+      setUser(false);
+    }
+  });
+}, []); 
   return (
     <div className="App">
-      {/* {you'll want to add the buttons here for auth} */}
+      <div className="d-flex justify-content-center">
+        <button className="signin-button google-logo" onClick={signInUser}>
+          <i className="fas fa-sign-out-alt"></i> Sign In
+        </button>
+      </div>
+      
       <BirdList birds={birds}/>
     </div>
   );

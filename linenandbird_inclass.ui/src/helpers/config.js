@@ -1,4 +1,4 @@
-const firebaseconfig = {
+const firebaseConfig = {
   baseUrl: process.env.REACT_APP_DATABASE_URL,
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -8,7 +8,7 @@ const firebaseconfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
-  
+  localDatabaseURL: process.env.REACT_APP_LOCAL_DB_URL
 }
 
-export default firebaseconfig;
+export default firebaseConfig;

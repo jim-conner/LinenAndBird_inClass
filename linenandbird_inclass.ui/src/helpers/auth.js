@@ -1,5 +1,5 @@
+import firebase from 'firebase/compat/app';
 import axios from 'axios';
-import firebase from 'firebase/app';
 
 // create axios interceptor to pass token from fb authed user to server
 // create something that modifies a request as it goes out,
@@ -20,7 +20,21 @@ axios.interceptors.request.use((request) => {
 
 const signInUser = () => {
   const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider); //this is actually a Promise
+  firebase.auth().signInWithPopup(provider) // this is actually a Promise
+    .then((user) => {
+      if (user.additionalUserInfo?.isNewUser){
+        const userInfo = {
+          display_Name: user.user?.displayName,
+          image_Url: user.user?.photoURL,
+          firebase_Uid: user.user?.uid,
+          email: user.user?.email,
+        }
+  
+        //add the user to your api and database
+  
+        window.location.href = '/'; // this is an example of how to route your user back to a certain view or "home" after signing in/creating account
+      }
+  }) 
   //if user is brand new, grab their contact info from this user obj
   /*if(user is new...){
     const userObject{
