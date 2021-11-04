@@ -16,13 +16,14 @@ axios.interceptors.request.use((request) => {
   return Promise.reject(err);
 });
 
-//sign in and then ch eck for a new user to post to our api
-
 const signInUser = () => {
   const provider = new firebase.auth.GoogleAuthProvider();
+
+  //sign in and then check for a new user to post to our api
   firebase.auth().signInWithPopup(provider) // this is actually a Promise
     .then((user) => {
       if (user.additionalUserInfo?.isNewUser){
+        // eslint-disable-next-line no-unused-vars
         const userInfo = {
           display_Name: user.user?.displayName,
           image_Url: user.user?.photoURL,
@@ -35,15 +36,6 @@ const signInUser = () => {
         window.location.href = '/'; // this is an example of how to route your user back to a certain view or "home" after signing in/creating account
       }
   }) 
-  //if user is brand new, grab their contact info from this user obj
-  /*if(user is new...){
-    const userObject{
-      name: jim, etc
-    }
-  }
-  */
-  // then send new user to your api and database
-  window.location.href = '/' //could do this somewhere else
 };
 
 const signOutUser = () => new Promise((resolve, reject) => {

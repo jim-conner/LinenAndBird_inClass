@@ -40,7 +40,9 @@ namespace LinenAndBird_inClass.Controllers
         [AllowAnonymous] //see note above here is an example for the GetAll call
         public IActionResult GetAllBirds()
         {
-            return Ok(_repo.GetAll()); //why doesn't this work?
+            var fbUserId = User.FindFirst(claim => claim.Type == "user id").Value;
+            // instead of using this clunky version ^^ we can create a new base controller!!
+            return Ok(_repo.GetAll()); //why doesn't this work? - it does  though?
             //return _repo.GetAll();
         }
         

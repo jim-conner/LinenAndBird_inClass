@@ -42,14 +42,14 @@ namespace LinenAndBird_inClass
                .AddJwtBearer(options =>
                {
                    options.IncludeErrorDetails = true;
-                   options.Authority = "https://securetoken.google.com/fish-store-a71e6";
+                   options.Authority = "https://securetoken.google.com/react-forms-9f73c";
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
                        ValidateLifetime = true,
                        ValidateAudience = true,
                        ValidateIssuer = true,
-                       ValidAudience = "fish-store-a71e6",
-                       ValidIssuer = "https://securetoken.google.com/fish-store-a71e6"
+                       ValidAudience = "react-forms-9f73c",
+                       ValidIssuer = "https://securetoken.google.com/react-forms-9f73c"
                    };
                });
 
@@ -75,6 +75,8 @@ namespace LinenAndBird_inClass
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -5,9 +5,9 @@ export default function BirdCard({bird}) {
   
   return (
     <div>
+      <h4>{bird.name}</h4> <br/>
       Type: {bird.type} <br/>
       Color: {bird.color} <br/>
-      Name: {bird.name} <br/>
     </div>
   )
 }

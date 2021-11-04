@@ -13,8 +13,8 @@ function App() {
   //   {name:"john"},
   //   {name:"teddy"}
   // ];
-// store token auth for later ... add that part here too from PR
 const [birds, setBirds] = useState([]);
+// eslint-disable-next-line no-unused-vars
 const [user, setUser] = useState({});
 
 useEffect(() => getAllBirds().then(setBirds), []);

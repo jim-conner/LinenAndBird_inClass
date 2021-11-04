@@ -3,11 +3,16 @@ import BirdCard from './BirdCard'
 
 export default function BirdList({birds}) {
 
-  let birdCards = birds?.map(bird => (<BirdCard bird={bird}></BirdCard>))
+  let birdCards = birds?.map(bird => (
+    <BirdCard 
+      key={bird.name} // will need a diff key irl
+      bird={bird}
+    >
+    </BirdCard>))
   
 
   return (
-  <div>
+  <div style={{display: "flex"}}>
     {birdCards}
     {/* <BirdCard bird={ {name:"steve", type:"bluejay", color:"purple"} }/> */}
   </div>
