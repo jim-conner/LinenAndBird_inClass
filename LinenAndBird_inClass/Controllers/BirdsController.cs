@@ -15,7 +15,7 @@ namespace LinenAndBird_inClass.Controllers
     // ^^everything inside of this controller you need to be logged in to use this api
 
     //[AllowAnoyomous] allows the given method to be sent but not required
-    public class BirdsController : ControllerBase
+    public class BirdsController : FirebaseBaseController
     {
         private BirdRepository _repo; //nathan leaves off "private"
 
@@ -40,8 +40,11 @@ namespace LinenAndBird_inClass.Controllers
         [AllowAnonymous] //see note above here is an example for the GetAll call
         public IActionResult GetAllBirds()
         {
-            var fbUserId = User.FindFirst(claim => claim.Type == "user id").Value;
+            //var fbUserId = User.FindFirst(claim => claim.Type == "user id").Value;
             // instead of using this clunky version ^^ we can create a new base controller!!
+
+            //var uid = GetFirebaseUid(); // don't even need this 
+            var uid = FirebaseUid;
             return Ok(_repo.GetAll()); //why doesn't this work? - it does  though?
             //return _repo.GetAll();
         }
